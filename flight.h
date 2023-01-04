@@ -5,15 +5,16 @@
 #include "airline.h"
 
 class Flight{
-    string source;
-    string target;
-    string airline;
+    Airport source;
+    Airport target;
+    Airline airline;
 public:
     Flight();
     Flight(string& source, string& target, string& airline);
     Airport getSource() const;
     Airport getTarget() const;
     Airline getAirline() const;
+    bool operator<(const Flight& f);
 };
 
 #endif

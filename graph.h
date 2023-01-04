@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 #include <map>
+#include "flight.h"
 using namespace std;
 
 class Graph{
@@ -13,11 +14,13 @@ class Graph{
         string target;
         //weight neste caso é distância, é automaticamente calculada de cada vez que adicionamos um adjacente
         float distance;
+        //códigos das companhias que fazem este voo
+        vector<string> airlines;
     };
 
     struct Node{
         //todos os destinos possiveis
-        list<Edge> adj;
+        vector<Edge> adj;
         //possivelmente nao vamos usar
         bool visited;
     };
@@ -31,7 +34,7 @@ class Graph{
 
 public:
     Graph(int nodes, bool dir = true);
-    void addEdge(string src, string dest, float weight = 1.0);
+    void addEdge(const Flight& f);
 };
 
 #endif
