@@ -1,5 +1,4 @@
 #include "flight.h"
-#include "setup.cpp"
 
 Flight::Flight() {
     this->source = Airport();

@@ -1,20 +1,18 @@
-#include <iostream>
-#include <map>
 #include "airport.cpp"
 #include "airline.cpp"
 #include "flight.cpp"
 #include "setup.cpp"
+#include "graph.cpp"
+#include <iostream>
 using namespace std;
 
 int main() {
-    map<string, Airline> airlines = setupAirlines();
-    for(auto i:airlines){
-        cout<<i.first;
-        cout<< " ";
-        cout<<i.second.getCode();
-        cout<<i.second.getName();
-        cout<<i.second.getCallsign();
-        cout<<i.second.getCountry()<<endl;
+    auto airports = setupAirports();
+    auto airlines = setupAirlines();
+    auto flights = setupFlights(airports, airlines);
+    Graph g;
+    for(auto i:flights){
+        g.addEdge(i);
     }
-    return 0;
+    cout << "rei";
 }

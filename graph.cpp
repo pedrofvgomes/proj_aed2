@@ -46,6 +46,7 @@ void Graph::addEdge(const Flight& f) {
 
         //target ainda nao existe
         if(exists==0){
+            n++;
             Edge e;
             vector<string> a;
             a.push_back(air);
@@ -59,7 +60,7 @@ void Graph::addEdge(const Flight& f) {
     }
 }
 
-float d(const Flight& f){
+float Graph::d(const Flight& f){
     float lat1 = f.getSource().getLatitude();
     float lat2 = f.getTarget().getLatitude();
     float lon1 = f.getSource().getLongitude();
