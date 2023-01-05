@@ -8,13 +8,21 @@ Graph::Graph(int nodes, bool dir){
 }
 
 void Graph::addEdge(const Flight& f) {
-    Airport a1 = f.getSource();
-    Airport a2 = f.getTarget();
-    //check if the source node already exists in the graph
-    for(auto i: nodes) if
+    string a1 = f.getSource().getCode();
+    string a2 = f.getTarget().getCode();
+    float lat1, lat2, lon1, lon2;
+    lat1 = f.getSource().getLatitude();
+    lat2 = f.getTarget().getLatitude();
+    lon1 = f.getSource().getLongitude();
+    lon2 = f.getTarget().getLongitude();
+
+    //se nao existir
+    if(nodes.find(a1)==nodes.end()){
+        Edge e = {a2,  }
+    }
 }
 
-float distance(float lat1, float lon1, float lat2, float lon2){
+float d(float lat1, float lon1, float lat2, float lon2){
     float dLat = (lat2 - lat1) * M_PI / 180.0;
     float dLon = (lon2 - lon1) * M_PI / 180.0;
 

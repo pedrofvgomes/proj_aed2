@@ -60,3 +60,21 @@ map<string, Airline> setupAirlines(){
     file.close();
     return airlines;
 }
+
+vector<Flight> setupFlights(map<string,Airport>& airports,
+                            map<string,Airline>& airlines){
+    vector<Flight> flights;
+    ifstream file;
+    string line;
+
+    file.open("flights.csv");
+    getline(file, line);
+    getline(file, line);
+    while(line.size()>0){
+        vector<string> s = split(line);
+        flights.push_back(Flight(airports[s[0]], airports[s[1]], airlines[s[2]]));
+        getline(file, line);
+    }
+
+    return flights;
+}
