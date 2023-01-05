@@ -2,27 +2,70 @@
 #include <cmath>
 #include "flight.h"
 
-Graph::Graph(int nodes, bool dir){
-    hasDir = dir;
-    n = nodes;
+Graph::Graph(){
+    n = 0;
 }
 
 void Graph::addEdge(const Flight& f) {
     string a1 = f.getSource().getCode();
     string a2 = f.getTarget().getCode();
-    float lat1, lat2, lon1, lon2;
-    lat1 = f.getSource().getLatitude();
-    lat2 = f.getTarget().getLatitude();
-    lon1 = f.getSource().getLongitude();
-    lon2 = f.getTarget().getLongitude();
-
+    string air = f.getAirline().getCode();
     //se nao existir
     if(nodes.find(a1)==nodes.end()){
-        Edge e = {a2,  }
+        n++;
+        Edge e;
+
+        e.target = a2;
+
+        e.distance = d(f);
+
+        vector<string> v;
+        v.push_back(air);
+        e.airlines = v;
+
+        Node node;
+        vector<Edge> a;
+        a.push_back(e);
+
+        node.adj = a;
+        node.visited = false;
+
+        nodes[a1] = node;
+    }
+
+    //existe
+    else{
+        Node node = nodes[a1];
+        int exists = 0;
+
+        //target tambem existe
+        for(auto &i:node.adj) if(i.target == a2) {
+            i.airlines.push_back(air);
+            exists = 1;
+        }
+
+        //target ainda nao existe
+        if(exists==0){
+            Edge e;
+            vector<string> a;
+            a.push_back(air);
+
+            e.target = a2;
+            e.distance = d(f);
+            e.airlines = a;
+
+            nodes[a1].adj.push_back(e);
+        }
     }
 }
 
-float d(float lat1, float lon1, float lat2, float lon2){
+float d(const Flight& f){
+    float lat1 = f.getSource().getLatitude();
+    float lat2 = f.getTarget().getLatitude();
+    float lon1 = f.getSource().getLongitude();
+    float lon2 = f.getTarget().getLongitude();
+
+
     float dLat = (lat2 - lat1) * M_PI / 180.0;
     float dLon = (lon2 - lon1) * M_PI / 180.0;
 
