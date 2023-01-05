@@ -6,6 +6,21 @@ Graph::Graph(){
     n = 0;
 }
 
+float d(float lat1, float lat2, float lon1, float lon2){
+    float dLat = (lat2 - lat1) * M_PI / 180.0;
+    float dLon = (lon2 - lon1) * M_PI / 180.0;
+
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    float a = pow(sin(dLat / 2), 2) +
+              pow(sin(dLon / 2), 2) *
+              cos(lat1) * cos(lat2);
+    float rad = 6371;
+    float c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
 void Graph::addEdge(const Flight& f) {
     string a1 = f.getSource().getCode();
     string a2 = f.getTarget().getCode();
@@ -17,7 +32,7 @@ void Graph::addEdge(const Flight& f) {
 
         e.target = a2;
 
-        e.distance = d(f);
+        e.distance = d(f.getSource().getLatitude(), f.getTarget().getLatitude(), f.getSource().getLongitude(), f.getTarget().getLongitude());
 
         vector<string> v;
         v.push_back(air);
@@ -52,31 +67,10 @@ void Graph::addEdge(const Flight& f) {
             a.push_back(air);
 
             e.target = a2;
-            e.distance = d(f);
+            e.distance = d(f.getSource().getLatitude(), f.getTarget().getLatitude(), f.getSource().getLongitude(), f.getTarget().getLongitude());
             e.airlines = a;
 
             nodes[a1].adj.push_back(e);
         }
     }
-}
-
-float Graph::d(const Flight& f){
-    float lat1 = f.getSource().getLatitude();
-    float lat2 = f.getTarget().getLatitude();
-    float lon1 = f.getSource().getLongitude();
-    float lon2 = f.getTarget().getLongitude();
-
-
-    float dLat = (lat2 - lat1) * M_PI / 180.0;
-    float dLon = (lon2 - lon1) * M_PI / 180.0;
-
-    lat1 = (lat1) * M_PI / 180.0;
-    lat2 = (lat2) * M_PI / 180.0;
-
-    float a = pow(sin(dLat / 2), 2) +
-               pow(sin(dLon / 2), 2) *
-               cos(lat1) * cos(lat2);
-    float rad = 6371;
-    float c = 2 * asin(sqrt(a));
-    return rad * c;
 }

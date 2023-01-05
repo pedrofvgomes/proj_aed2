@@ -33,7 +33,6 @@ class Graph{
 public:
     Graph();
     void addEdge(const Flight& f);
-    float d(const Flight& f);
 };
 
 #endif
