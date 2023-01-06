@@ -7,18 +7,16 @@ Graph::Graph(){
 }
 
 float d(float lat1, float lat2, float lon1, float lon2){
-    float dLat = (lat2 - lat1) * M_PI / 180.0;
-    float dLon = (lon2 - lon1) * M_PI / 180.0;
+    float latRad1 = M_PI * lat1 / 180.0;
+    float latRad2 = M_PI * lat2 / 180.0;
+    float lonRad1 = M_PI * lon1 / 180.0;
+    float lonRad2 = M_PI * lon2 / 180.0;
 
-    lat1 = (lat1) * M_PI / 180.0;
-    lat2 = (lat2) * M_PI / 180.0;
+    float diffLa = latRad2 - latRad1;
+    float diffLo = lonRad2 - lonRad1;
 
-    float a = pow(sin(dLat / 2), 2) +
-              pow(sin(dLon / 2), 2) *
-              cos(lat1) * cos(lat2);
-    float rad = 6371;
-    float c = 2 * asin(sqrt(a));
-    return rad * c;
+    float computation = asin(sqrt(sin(diffLa / 2) * sin(diffLa / 2) + cos(latRad1) * cos(latRad2) * sin(diffLo / 2) * sin(diffLo / 2)));
+    return 2 * 6372.8 * computation;
 }
 
 void Graph::addEdge(const Flight& f) {
