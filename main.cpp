@@ -24,6 +24,9 @@ int main() {
                 if(f.getSource().getCode()!="") cout << f.getSource().getCity() + " (" + f.getSource().getCountry() + ")\n";
 
 
+                //----adicionar paragem ----
+
+
                 //---- destino ----
                 cout << "\n\nDestino ->";
                 if(f.getTarget().getCode()!="") cout << f.getTarget().getCity() + " (" + f.getTarget().getCountry() + ")\n";
