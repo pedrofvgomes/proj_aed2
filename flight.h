@@ -14,7 +14,9 @@ public:
     Airport getSource() const;
     Airport getTarget() const;
     Airline getAirline() const;
-    bool operator<(const Flight& f);
+    void setSource(const Airport& a);
+    void setTarget(const Airport& a);
+    void setAirline(const Airline& a);
 };
 
 #endif
