@@ -35,10 +35,49 @@ vector<Flight> airlineRestriction(vector<Flight> flights, vector<string> airline
     return newflights;
 }
 
+void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
+    int n;
+    string city;
+    list<Airport> newairports;
+    while(true){
+        system("cls");
+
+        //----- pesquisar por cidade -----
+        cout << "\n\n1) Pesquisar por cidade";
+
+        //----- introduzir localizacao
+        cout << "\n\n2) Introduzir localização e raio máximo";
+
+        cin >> n;
+        if(n==0) break;
+
+        if(n==1){
+            system("cls");
+            cout << "\n\nCidade --> ";
+            cin >> city;
+            newairports = citySearch(city, airports);
+            int count = 1;
+            for(auto &i: newairports){
+                cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                count++;
+            }
+            cout << "\n\n\n\n\n\n0) Sair";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                if(escolha==0) f.setSource(*it);
+                else f.setTarget(*it);
+            }
+            break;
+        }
+    }
+}
 
 //menu de planeamento de viagem
 
-void planTripMenu(Flight& f){
+void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
+    Flight f = Flight();
     int n;
     while(true){
         //--------------- cabeçalho ---------------//
@@ -47,13 +86,13 @@ void planTripMenu(Flight& f){
 
 
         //---- partida ----
-        cout << "\n\nPartida:  ";
-        if (f.getSource().getCode() != "") cout << f.getSource().getCity() + " (" + f.getSource().getCountry() + ")\n";
+        cout << "\n\nPartida: ";
+        if (f.getSource().getCode() != "") cout << f.getSource().getCity() + " (" + f.getSource().getCountry() + ") - " + f.getSource().getName();
 
 
         //---- destino ----
         cout << "\n\nDestino: ";
-        if (f.getTarget().getCode() != "") cout << f.getTarget().getCity() + " (" + f.getTarget().getCountry() + ")\n";
+        if (f.getTarget().getCode() != "") cout << f.getTarget().getCity() + " (" + f.getTarget().getCountry() + ") - " + f.getTarget().getName();
 
 
         //---- percurso ----
@@ -75,8 +114,15 @@ void planTripMenu(Flight& f){
 
         cout << "\n\n\n\n\n\n0) Sair";
         //--------------- input ---------------//
-        cout << "\n\n-->";
+        cout << "\n\n--> ";
         cin >> n;
         if (n == 0) break;
+
+        //definir partida
+        if(n==1) setAirport(0,f,airports);
+
+        //definir destino
+        if(n==2) setAirport(1,f,airports);
     }
 }
+
