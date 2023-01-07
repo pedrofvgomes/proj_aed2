@@ -38,7 +38,7 @@ vector<Flight> createFlights(vector<Flight>& flights, vector<string>& airlines){
 
 void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
     int n;
-    string city;
+    string city, city1;
     float lat,lon,r;
     list<Airport> newairports;
     while(true){
@@ -57,13 +57,10 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             system("cls");
             cout << "\n\nCidade: ";
 
-            //--------------------------------------------------//
-            //-------------------- bug aqui --------------------//
-            //------------------------\/-------------------------//
-
             cin >> city;
+            getline(cin,city1,'\n');
+            city += city1;
 
-            //----------------------------------------------------//
             newairports = citySearch(city, airports);
             int count = 1;
             if(!newairports.empty()) for(auto &i: newairports){
