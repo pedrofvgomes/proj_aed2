@@ -28,11 +28,12 @@ list<Airport> coordinateSearch(const float& lat, const float& lon, const float& 
 
 //criar um vetor de voos com restricao de companhias
 
-vector<Flight> createFlights(vector<Flight>& flights, vector<string>& airlines){
+vector<Flight> createFlights(vector<Flight>& flights, list<Airline>& airlines){
     vector<Flight> newflights;
-    for(auto &i: flights)
-        for(auto a : airlines)
-            if(i.getAirline().getCode()==a) newflights.push_back(i);
+    if(airlines.empty()) newflights = flights;
+    else for(auto &i: flights)
+        for(auto &a : airlines)
+            if(i.getAirline().getCode()==a.getCode()) newflights.push_back(i);
     return newflights;
 }
 
@@ -179,6 +180,7 @@ void removeAirline(list<Airline>& newairlines){
 void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
     Flight f = Flight();
     list<Airline> newairlines;
+    vector<Flight> currentflights;
     int n;
     while(true){
         //--------------- cabeçalho ---------------//
@@ -222,6 +224,9 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
         //---- escolher companhia(s) de aviação ----
         cout << "\n\n3) Adicionar companhia de aviacao\n\n4) Remover companhia de aviacao";
 
+        //---- confirmar ----
+        cout << "\n\n5) Confirmar - processar viagem";
+
 
         cout << "\n\n\n\n\n\n0) Sair";
         //--------------- input ---------------//
@@ -240,6 +245,16 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //remover companhia
         if(n==4) removeAirline(newairlines);
+
+        //confirmar viagem
+        if(n==5){
+            Graph g;
+            currentflights = createFlights(flights, newairlines);
+            cout <<"...";
+            for(auto &i : currentflights) {
+                g.addEdge(i);
+            }
+        }
     }
 }
 
