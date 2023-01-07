@@ -1,22 +1,8 @@
 #include "graph.h"
-#include <cmath>
 #include "flight.h"
 
 Graph::Graph(){
     n = 0;
-}
-
-float d(float lat1, float lat2, float lon1, float lon2){
-    float latRad1 = M_PI * lat1 / 180.0;
-    float latRad2 = M_PI * lat2 / 180.0;
-    float lonRad1 = M_PI * lon1 / 180.0;
-    float lonRad2 = M_PI * lon2 / 180.0;
-
-    float diffLa = latRad2 - latRad1;
-    float diffLo = lonRad2 - lonRad1;
-
-    float computation = asin(sqrt(sin(diffLa / 2) * sin(diffLa / 2) + cos(latRad1) * cos(latRad2) * sin(diffLo / 2) * sin(diffLo / 2)));
-    return 2 * 6372.8 * computation;
 }
 
 void Graph::addEdge(const Flight& f) {

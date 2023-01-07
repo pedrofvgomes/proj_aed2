@@ -113,8 +113,20 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             if(n>0){
                 auto it = newairports.begin();
                 for(int i = 1; i<n; i++){it++;}
-                if(escolha==0) f.setSource(*it);
-                else f.setTarget(*it);
+                if(escolha==0) {
+                    if(it->getCode()==f.getTarget().getCode()){
+                        cout << "\n\nO aeroporto de partida nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setSource(*it);
+                }
+                else {
+                    if(it->getCode()==f.getSource().getCode()){
+                        cout << "\n\nO aeroporto de destino nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setTarget(*it);
+                }
             }
             break;
         }
@@ -127,6 +139,8 @@ void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
 }
 
 void removeAirline(list<Airline>& newairlines){
+    system("cls");
+    cout << "\n\n---- Remover companhia ----";
     int x=1, n;
     list<Airline> temp;
     for(auto &i : newairlines){
@@ -149,7 +163,7 @@ void removeAirline(list<Airline>& newairlines){
 void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
     Flight f = Flight();
     list<Airline> newairlines;
-    int n, ready = 0;
+    int n;
     while(true){
         //--------------- cabeçalho ---------------//
         system("cls");
