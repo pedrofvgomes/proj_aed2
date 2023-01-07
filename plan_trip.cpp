@@ -8,7 +8,7 @@ using namespace std;
 
 //lista de aeroportos numa cidade
 
-list<Airport> citySearch(const string& city, map<string,Airport> airports){
+list<Airport> citySearch(const string& city, map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
         if(i.second.getCity()==city)
@@ -48,7 +48,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         cout << "\n\n1) Pesquisar por cidade";
 
         //----- introduzir localizacao
-        cout << "\n\n2) Introduzir localização e raio máximo";
+        cout << "\n\n2) Introduzir localizacao e raio maximo";
 
         cin >> n;
         if(n==0) break;
@@ -66,10 +66,11 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             //----------------------------------------------------//
             newairports = citySearch(city, airports);
             int count = 1;
-            for(auto &i: newairports){
-                cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
-                count++;
-            }
+            if(!newairports.empty()) for(auto &i: newairports){
+                    cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                    count++;
+                }
+            else cout << "\n\nNao ha aeroportos nessa cidade";
             cout << "\n\n\n\n\n\n0) Sair";
             cin >> n;
             if(n>0){
@@ -87,14 +88,15 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             cin >> lat;
             cout << "\n\nLongitude: ";
             cin >> lon;
-            cout << "\n\nRaio máximo: ";
+            cout << "\n\nRaio maximo: ";
             cin >> r;
             newairports = coordinateSearch(lat,lon,r,airports);
             int count = 1;
-            for(auto &i: newairports){
+            if(!newairports.empty()) for(auto &i: newairports){
                 cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
                 count++;
             }
+            else cout << "\n\nNao ha aeroportos no raio indicado";
             cout << "\n\n\n\n\n\n0) Sair";
             cin >> n;
             if(n>0){
