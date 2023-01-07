@@ -10,11 +10,13 @@ class Flight{
     Airline airline;
 public:
     Flight();
-    Flight(string& source, string& target, string& airline);
+    Flight(const Airport& source, const Airport& target, const Airline& airline);
     Airport getSource() const;
     Airport getTarget() const;
     Airline getAirline() const;
-    bool operator<(const Flight& f);
+    void setSource(const Airport& a);
+    void setTarget(const Airport& a);
+    void setAirline(const Airline& a);
 };
 
 #endif

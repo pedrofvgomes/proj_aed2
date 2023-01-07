@@ -27,13 +27,11 @@ class Graph{
 
     //size
     int n;
-    //default true, porque os voos podem nao ter volta
-    bool hasDir;
     //string é o código do aeroporto, Node é o node correspondente
     map<string, Node> nodes;
 
 public:
-    Graph(int nodes, bool dir = true);
+    Graph();
     void addEdge(const Flight& f);
 };
 
