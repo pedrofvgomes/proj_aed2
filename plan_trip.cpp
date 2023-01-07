@@ -8,7 +8,7 @@ using namespace std;
 
 //lista de aeroportos numa cidade
 
-list<Airport> citySearch(const string& city, map<string,Airport> airports){
+list<Airport> citySearch(const string& city, map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
         if(i.second.getCity()==city)
@@ -37,8 +37,8 @@ vector<Flight> createFlights(vector<Flight>& flights, vector<string>& airlines){
 }
 
 void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
-    int n;
-    string city;
+    int n, temp;
+    string city, city1;
     float lat,lon,r;
     list<Airport> newairports;
     while(true){
@@ -48,7 +48,9 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         cout << "\n\n1) Pesquisar por cidade";
 
         //----- introduzir localizacao
-        cout << "\n\n2) Introduzir localização e raio máximo";
+        cout << "\n\n2) Introduzir localizacao e raio maximo";
+
+        cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
 
         cin >> n;
         if(n==0) break;
@@ -57,26 +59,36 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             system("cls");
             cout << "\n\nCidade: ";
 
-            //--------------------------------------------------//
-            //-------------------- bug aqui --------------------//
-            //------------------------\/-------------------------//
-
             cin >> city;
+            getline(cin,city1,'\n');
+            city += city1;
 
-            //----------------------------------------------------//
             newairports = citySearch(city, airports);
             int count = 1;
-            for(auto &i: newairports){
+            if(!newairports.empty()) for(auto &i: newairports){
                 cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
                 count++;
             }
-            cout << "\n\n\n\n\n\n0) Sair";
+            else cout << "\n\nNao ha aeroportos nessa cidade";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
                 for(int i = 1; i<n; i++){it++;}
-                if(escolha==0) f.setSource(*it);
-                else f.setTarget(*it);
+                if(escolha==0) {
+                    if(it->getCode()==f.getTarget().getCode()){
+                        cout << "\n\nO aeroporto de partida nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setSource(*it);
+                }
+                else {
+                    if(it->getCode()==f.getSource().getCode()){
+                        cout << "\n\nO aeroporto de destino nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setTarget(*it);
+                }
             }
             break;
         }
@@ -87,15 +99,16 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             cin >> lat;
             cout << "\n\nLongitude: ";
             cin >> lon;
-            cout << "\n\nRaio máximo: ";
+            cout << "\n\nRaio maximo: ";
             cin >> r;
             newairports = coordinateSearch(lat,lon,r,airports);
             int count = 1;
-            for(auto &i: newairports){
+            if(!newairports.empty()) for(auto &i: newairports){
                 cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
                 count++;
             }
-            cout << "\n\n\n\n\n\n0) Sair";
+            else cout << "\n\nNao ha aeroportos no raio indicado";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -108,15 +121,35 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
     }
 }
 
-void setAirlines(vector<string>& choices, map<string, Airline>& airlines){
+void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
+    // Airline a = searchAirline(airlines);
+    // newairlines.push_back(a);
+}
 
+void removeAirline(list<Airline>& newairlines){
+    int x=1, n;
+    list<Airline> temp;
+    for(auto &i : newairlines){
+        cout<< "\n\n" << x << ") " + i.getName() + " (" + i.getCountry() + ")";
+        x++;
+    }
+    cout << "\n\n\n\n\n\n0) Sair\n\n-> ";
+    cin >> n;
+    if(n>0){
+        auto it = newairlines.begin();
+        for(int i = 1; i<n; i++){temp.push_back(*it); it++;}
+        it++;
+        while(it!=newairlines.end()) {temp.push_back(*it);it++;}
+        newairlines = temp;
+    }
 }
 
 //menu de planeamento de viagem
 
 void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
     Flight f = Flight();
-    int n;
+    list<Airline> newairlines;
+    int n, ready = 0;
     while(true){
         //--------------- cabeçalho ---------------//
         system("cls");
@@ -134,20 +167,20 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
 
         //---- percurso ----
-        if (f.getTarget().getCode() != "") cout << "\n\nPercurso: ";
+        cout << "\n\nPercurso: ";
 
         //--------------- filtros ---------------//
-        cout << "\n\n\n\n---- Filtros ----";
+        cout << "\n\n---- Filtros ----";
         //---- definir partida ----
         cout << "\n\n1) Definir partida";
 
 
-        //---- definir destino
+        //---- definir destino ----
         cout << "\n\n2) Definir destino";
 
 
         //---- escolher companhia(s) de aviação ----
-        cout << "\n\n3) Escolher companhias de aviacao";
+        cout << "\n\n3) Adicionar companhia de aviacao\n\n4) Remover companhia de aviacao";
 
 
         cout << "\n\n\n\n\n\n0) Sair";
@@ -161,6 +194,12 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //definir destino
         if(n==2) setAirport(1,f,airports);
+
+        //adicionar companhia
+        if(n==3) addAirline(newairlines, airlines);
+
+        //remover companhia
+        if(n==4) removeAirline(newairlines);
     }
 }
 
