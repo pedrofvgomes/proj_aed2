@@ -2,6 +2,7 @@
 #include <string>
 #include "airport.h"
 #include <map>
+#include <iostream>
 #include "graph.cpp"
 using namespace std;
 
@@ -9,7 +10,7 @@ using namespace std;
 
 list<Airport> citySearch(const string& city, map<string,Airport> airports){
     list<Airport> a;
-    for(auto i:airports)
+    for(auto &i:airports)
         if(i.second.getCity()==city)
             a.push_back(i.second);
     return a;
@@ -17,19 +18,19 @@ list<Airport> citySearch(const string& city, map<string,Airport> airports){
 
 //lista de aeroportos dentro de um raio x, a partir de uma coordenada fixa
 
-list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, map<string,Airport> airports){
+list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, map<string,Airport>& airports){
     list<Airport> a;
-    for(auto i:airports)
+    for(auto &i:airports)
         if(d(lat, i.second.getLatitude(), lon, i.second.getLongitude()) <= radius)
             a.push_back(i.second);
     return a;
 }
 
-//criar um grafo com restricao de companhias
+//criar um vetor de voos com restricao de companhias
 
-vector<Flight> airlineRestriction(vector<Flight> flights, vector<string> airlines){
+vector<Flight> createFlights(vector<Flight>& flights, vector<string>& airlines){
     vector<Flight> newflights;
-    for(auto i: flights)
+    for(auto &i: flights)
         for(auto a : airlines)
             if(i.getAirline().getCode()==a) newflights.push_back(i);
     return newflights;
@@ -38,6 +39,7 @@ vector<Flight> airlineRestriction(vector<Flight> flights, vector<string> airline
 void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
     int n;
     string city;
+    float lat,lon,r;
     list<Airport> newairports;
     while(true){
         system("cls");
@@ -53,8 +55,9 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
 
         if(n==1){
             system("cls");
-            cout << "\n\nCidade --> ";
+            cout << "\n\nCidade: ";
             cin >> city;
+            cout << city;
             newairports = citySearch(city, airports);
             int count = 1;
             for(auto &i: newairports){
@@ -71,7 +74,36 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
             }
             break;
         }
+
+        if(n==2){
+            system("cls");
+            cout << "\n\nLatitude: ";
+            cin >> lat;
+            cout << "\n\nLongitude: ";
+            cin >> lon;
+            cout << "\n\nRaio máximo: ";
+            cin >> r;
+            newairports = coordinateSearch(lat,lon,r,airports);
+            int count = 1;
+            for(auto &i: newairports){
+                cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                count++;
+            }
+            cout << "\n\n\n\n\n\n0) Sair";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                if(escolha==0) f.setSource(*it);
+                else f.setTarget(*it);
+            }
+            break;
+        }
     }
+}
+
+void setAirlines(vector<string>& choices, map<string, Airline>& airlines){
+
 }
 
 //menu de planeamento de viagem

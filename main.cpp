@@ -13,7 +13,7 @@ int main() {
     vector<Flight> flights = setupFlights(airports, airlines);
     while(true){
         system("cls");
-        cout << "1) Planear viagem\n\n2) Pesquisa\n\n\n\n\n\n0)Sair\n\n--> ";
+        cout << "1) Planear viagem\n\n2) Pesquisa\n\n\n\n\n\n0) Sair\n\n--> ";
         cin >> n;
         if(n==1) planTripMenu(airlines, airports, flights);
         if(n==0) break;
