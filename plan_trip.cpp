@@ -56,8 +56,14 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         if(n==1){
             system("cls");
             cout << "\n\nCidade: ";
+
+            //--------------------------------------------------//
+            //-------------------- bug aqui --------------------//
+            //------------------------\/-------------------------//
+
             cin >> city;
-            cout << city;
+
+            //----------------------------------------------------//
             newairports = citySearch(city, airports);
             int count = 1;
             for(auto &i: newairports){
