@@ -115,14 +115,14 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
                 for(int i = 1; i<n; i++){it++;}
                 if(escolha==0) {
                     if(it->getCode()==f.getTarget().getCode()){
-                        cout << "\n\nO aeroporto de partida nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cout << "\n\nO aeroporto de partida nao pode ser igual ao de destino\n\n0) Sair\n\n-->";
                         cin >> temp;
                     }
                     else f.setSource(*it);
                 }
                 else {
                     if(it->getCode()==f.getSource().getCode()){
-                        cout << "\n\nO aeroporto de destino nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cout << "\n\nO aeroporto de destino nao pode ser igual ao de partida\n\n0) Sair\n\n-->";
                         cin >> temp;
                     }
                     else f.setTarget(*it);
@@ -134,8 +134,24 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
 }
 
 void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
-    // Airline a = searchAirline(airlines);
-    // newairlines.push_back(a);
+    int n = 1;
+    system("cls");
+    cout << "\n\n---- Adicionar companhia ----";
+    string code;
+    cout << "\n\nCodigo: ";
+    cin >> code;
+    if(airlines.find(code)!=airlines.end()) {
+        auto a = airlines[code];
+        int existe = 0;
+        for(auto &i : newairlines) if(i.getCode()==code) existe = 1;
+        if(existe==0) newairlines.push_back(a);
+        cout << "\n - " + a.getName() + " (" + a.getCountry() + ")\n\n\n\n\n\n0) Sair\n\n--> ";
+        while(n!=0){cin>>n; if(n==0) break;}
+    }
+    else {
+        cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n-->";
+        while(n!=0){cin>>n; if(n==0) break;}
+    }
 }
 
 void removeAirline(list<Airline>& newairlines){
@@ -182,6 +198,16 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //---- percurso ----
         cout << "\n\nPercurso: ";
+
+        //---- companhias ----
+        if(newairlines.empty()) cout << "\n\nSem restricao nas companhias de aviacao";
+        else{
+            cout << "\n\nCompanhias de aviacao escolhidas: ";
+            auto it = newairlines.begin();
+            cout << it->getName();
+            it++;
+            while(it!=newairlines.end()) { cout << ", " + it->getName(); it++;}
+        }
 
         //--------------- filtros ---------------//
         cout << "\n\n---- Filtros ----";
