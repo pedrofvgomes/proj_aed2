@@ -181,6 +181,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
     Flight f = Flight();
     list<Airline> newairlines;
     vector<Flight> currentflights;
+    list<string> shortestTrip;
     int n;
     while(true){
         //--------------- cabeçalho ---------------//
@@ -200,6 +201,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //---- percurso ----
         cout << "\n\nPercurso: ";
+        displayTrip(shortestTrip, airports);
 
         //---- companhias ----
         if(newairlines.empty()) cout << "\n\nSem restricao nas companhias de aviacao";
@@ -254,6 +256,8 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
             for(auto &i : currentflights) {
                 g.addEdge(i);
             }
+            g.bfs(f.getSource().getCode(), f.getTarget().getCode());
+            shortestTrip = shortestFlight(f.getSource().getCode(), f.getTarget().getCode(),g);
         }
     }
 }

@@ -66,7 +66,7 @@ list<Flight> getTrip(Graph& g, const Airport& a1, const Airport& a2){
 
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
 
-list<Graph::Node> Graph::bfs(const string& source, const string& target){
+void Graph::bfs(const string& source, const string& target){
     //meter todos unvisited
 
     for(auto &i : nodes)
@@ -90,6 +90,7 @@ list<Graph::Node> Graph::bfs(const string& source, const string& target){
                 q.push(i.target);
                 nodes[i.target].visited = true;
                 nodes[i.target].distance = nodes[current].distance+1;
+                nodes[i.target].previous = current;
             }
         }
     }
