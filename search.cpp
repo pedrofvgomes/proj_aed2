@@ -1,6 +1,6 @@
 #include "count.cpp"
 
-void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
+void airlineMenu(unordered_map<string, Airline>& airlines, vector<Flight>& flights){
     int n = 1;
     while(true){
         system("cls");
@@ -28,7 +28,7 @@ void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
     }
 }
 
-void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
+void airportMenu(unordered_map<string, Airport>& a, vector<Flight>& flights){
     int n;
     string cidade, cidade1;
     list<Airport> newairports;
@@ -122,7 +122,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
                 airport = *it;
             }
         }
-        if(airport.getCode().empty()){
+        if(!airport.getCode().empty()){
             system("cls");
             cout << "\n\n--> " + airport.getCity() + " (" + airport.getCountry() + ") - " + airport.getName() + " <--";
 
@@ -149,7 +149,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
     }
 }
 
-void countryMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
+void countryMenu(unordered_map<string, Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     int n = 1, nin, nout;
     while(true){
         system("cls");
@@ -174,11 +174,11 @@ void countryMenu(map<string, Airline>& airlines, map<string, Airport>& airports,
 
         cout << "\n\n\n0) Voltar\n\n--> ";
         cin>>n;
-        break;
+        if(n==0) break;
     }
 }
 
-void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
+void searchMenu(unordered_map<string,Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     Graph g;
     int n;
     for(auto &i : flights) g.addEdge(i);
