@@ -182,6 +182,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
     list<Airline> newairlines;
     vector<Flight> currentflights;
     list<pair<string,string>> shortestTrip;
+    int temp = 1;
     int n;
     while(true){
         //--------------- cabeçalho ---------------//
@@ -201,7 +202,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //---- percurso ----
         cout << "\n\nPercurso: ";
-        displayTrip(shortestTrip, airports);
+        if(validTrip(shortestTrip)) displayTrip(shortestTrip, airports);
 
         //---- companhias ----
         if(newairlines.empty()) cout << "\n\nSem restricao nas companhias de aviacao";
@@ -250,6 +251,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
 
         //confirmar viagem
         if(n==5){
+            temp = 1;
             Graph g;
             currentflights = createFlights(flights, newairlines);
             cout << "...";
@@ -257,7 +259,10 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
                 g.addEdge(i);
             }
             g.bfs(f.getSource().getCode(), f.getTarget().getCode());
-            shortestTrip = shortestFlight(f.getSource().getCode(), f.getTarget().getCode(),g);
+            if(f.getSource().getCode()!="" && f.getTarget().getCode()!="")
+                shortestTrip = shortestFlight(f.getSource().getCode(), f.getTarget().getCode(),g);
+            else cout << "\nTens de definir partida e destino para a viagem ser processada\n0) Voltar\n\n-->";
+            while(temp!=0) cin >> temp;
         }
     }
 }
