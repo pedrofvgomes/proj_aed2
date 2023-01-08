@@ -1,5 +1,5 @@
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -16,8 +16,8 @@ vector<string> split(string& s){
     return result;
 }
 
-map<string, Airport> setupAirports(){
-    map<string,Airport> airports;
+unordered_map<string, Airport> setupAirports(){
+    unordered_map<string,Airport> airports;
     string line;
     string code, name, city, country;
     float lat, lon;
@@ -40,8 +40,8 @@ map<string, Airport> setupAirports(){
     return airports;
 }
 
-map<string, Airline> setupAirlines(){
-    map<string,Airline> airlines;
+unordered_map<string, Airline> setupAirlines(){
+    unordered_map<string,Airline> airlines;
     string line;
     string code, name, callsign, country;
     ifstream file;
@@ -61,8 +61,8 @@ map<string, Airline> setupAirlines(){
     return airlines;
 }
 
-vector<Flight> setupFlights(map<string,Airport>& airports,
-                            map<string,Airline>& airlines){
+vector<Flight> setupFlights(unordered_map<string,Airport>& airports,
+                            unordered_map<string,Airline>& airlines){
     vector<Flight> flights;
     ifstream file;
     string line;

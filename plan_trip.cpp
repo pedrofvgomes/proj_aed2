@@ -1,14 +1,13 @@
 #include <list>
 #include <string>
 #include "airport.h"
-#include <map>
 #include <iostream>
 #include "graph.cpp"
 using namespace std;
 
 //lista de aeroportos numa cidade
 
-list<Airport> citySearch(const string& city, map<string,Airport>& airports){
+list<Airport> citySearch(const string& city, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
         if(i.second.getCity()==city)
@@ -17,7 +16,7 @@ list<Airport> citySearch(const string& city, map<string,Airport>& airports){
 }
 
 //lista de aeroportos por pais
-list<Airport> countrySearch(const string& country, map<string,Airport>& airports){
+list<Airport> countrySearch(const string& country, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
         if(i.second.getCountry()==country)
@@ -27,7 +26,7 @@ list<Airport> countrySearch(const string& country, map<string,Airport>& airports
 
 //lista de aeroportos dentro de um raio x, a partir de uma coordenada fixa
 
-list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, map<string,Airport>& airports){
+list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
         if(d(lat, i.second.getLatitude(), lon, i.second.getLongitude()) <= radius)
@@ -46,7 +45,7 @@ vector<Flight> createFlights(vector<Flight>& flights, list<Airline>& airlines){
     return newflights;
 }
 
-void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
+void setAirport(int escolha, Flight& f, unordered_map<string, Airport>& airports){
     int n, temp;
     string city, city1;
     float lat,lon,r;
@@ -184,7 +183,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
     }
 }
 
-void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
+void addAirline(list<Airline>& newairlines, unordered_map<string, Airline>& airlines){
     int n = 1;
     system("cls");
     cout << "\n\n---- Adicionar companhia ----";
@@ -229,7 +228,7 @@ void removeAirline(list<Airline>& newairlines){
 
 //menu de planeamento de viagem
 
-void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
+void planTripMenu(unordered_map<string, Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     Flight f = Flight();
     list<Airline> newairlines;
     vector<Flight> currentflights;

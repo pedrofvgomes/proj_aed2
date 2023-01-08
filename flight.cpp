@@ -2,6 +2,8 @@
 #include <list>
 #include "graph.h"
 #include <iostream>
+#include <unordered_map>
+
 using namespace std;
 
 Flight::Flight() {
@@ -51,7 +53,7 @@ list<pair<string,string>> shortestFlight(const string& source, const string& tar
     return temp.size()==1? empty : temp;
 }
 
-void displayTrip(const list<pair<string,string>>& trip, map<string, Airport>& airports){
+void displayTrip(const list<pair<string,string>>& trip, unordered_map<string, Airport>& airports){
     auto it = trip.begin();
     if(trip.size()>=2){
         cout << (*it).first + " (" + airports[(*it).first].getCity() + ")";

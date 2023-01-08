@@ -51,14 +51,14 @@ int nFlightsIn(const Airport& airport, const vector<Flight>& flights){
     return resposta;
 }
 
-int nAirlinesCountry(const string& country, map<string, Airline>& airlines){
+int nAirlinesCountry(const string& country, unordered_map<string, Airline>& airlines){
     int resposta = 0;
     for(auto &i: airlines)
         if(i.second.getCountry()==country) resposta++;
     return resposta;
 }
 
-int nAirportsCountry(const string& country, map<string, Airport>& airports){
+int nAirportsCountry(const string& country, unordered_map<string, Airport>& airports){
     int resposta = 0;
     for(auto &i: airports)
         if(i.second.getCountry()==country) resposta++;
