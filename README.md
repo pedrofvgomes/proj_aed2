@@ -1,1 +1,1 @@
-projeto aed - pedro gomes
+projeto aed - pedro gomes e gaspar faria
