@@ -52,10 +52,10 @@ list<pair<string,string>> shortestFlight(const string& source, const string& tar
 void displayTrip(list<pair<string,string>>& trip, map<string, Airport>& airports){
     auto it = trip.begin();
     if(trip.size()>=2){
-        cout << (*it).first + " (" + airports[(*it).first].getName() + ")";
+        cout << (*it).first + " (" + airports[(*it).first].getCity() + ")";
         it++;
         while(it!=trip.end()){
-            cout << " --|" + (*it).second + "|--> "+ (*it).first + " (" + airports[(*it).first].getName() + ")";
+            cout << " --|" + (*it).second + "|--> "+ (*it).first + " (" + airports[(*it).first].getCity() + ")";
             it++;
         }
     }
