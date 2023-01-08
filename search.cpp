@@ -51,6 +51,34 @@ int nFlightsIn(const Airport& airport, const vector<Flight>& flights){
     return resposta;
 }
 
+int nAirlinesCountry(const string& country, map<string, Airline>& airlines){
+    int resposta = 0;
+    for(auto &i: airlines)
+        if(i.second.getCountry()==country) resposta++;
+    return resposta;
+}
+
+int nAirportsCountry(const string& country, map<string, Airport>& airports){
+    int resposta = 0;
+    for(auto &i: airports)
+        if(i.second.getCountry()==country) resposta++;
+    return resposta;
+}
+
+int nFlightsInCountry(const string& country, vector<Flight>& flights){
+    int resposta = 0;
+    for(auto &i: flights)
+        if(i.getTarget().getCountry()==country) resposta++;
+    return resposta;
+}
+
+int nFlightsOutCountry(const string& country, vector<Flight>& flights){
+    int resposta = 0;
+    for(auto &i: flights)
+        if(i.getSource().getCountry()==country) resposta++;
+    return resposta;
+}
+
 void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
     int n = 1;
     while(true){
@@ -60,7 +88,7 @@ void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
         cout << "\n\nCodigo: ";
         cin >> code;
         if(airlines.find(code)==airlines.end()) {
-            cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n-------------------\n\n0) Sair\n\n--> ";
             while(n!=0){cin>>n; if(n==0) break;}
         }
         else {
@@ -71,7 +99,7 @@ void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
             cout << "\n\n\n\nPais de origem: " + a.getCountry();
             cout << "\n\nNumero de paises abrangidos: " << nCountries(a, flights);
             cout << "\n\nNumero de voos totais: " << createFlights(flights,temp).size();
-            cout << "\n\n\n\n\n\n0) Voltar\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin>>n;
             while(n!=0){cin>>n; if(n==0) break;}
         }
@@ -97,7 +125,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
         //----- introduzir localizacao
         cout << "\n\n3) Introduzir localizacao e raio maximo";
 
-        cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+        cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
 
         cin >> n;
         if(n==0) break;
@@ -117,7 +145,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
                     count++;
                 }
             else cout << "\n\nNao ha aeroportos nessa cidade";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -141,7 +169,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
                     count++;
                 }
             else cout << "\n\nNao ha aeroportos nesse pais";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -165,7 +193,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
                     count++;
                 }
             else cout << "\n\nNao ha aeroportos no raio indicado";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -200,6 +228,33 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
     }
 }
 
+void countryMenu(map<string, Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
+    int n = 1, nin, nout;
+    while(true){
+        system("cls");
+        cout << "\n\n---- Pesquisar pais ----";
+        string country;
+        cout << "\n\nNome do pais: ";
+        cin >> country;
+
+        //companhias
+        cout << "\n\nNumero de companhias sediadas neste pais: " << nAirlinesCountry(country, airlines);
+
+        //aeroportos
+        cout << "\n\nNumero de aeroportos sediados neste pais: " << nAirportsCountry(country, airports);
+
+        //voosIn
+        cout << "\n\nNumero de voos que saem deste pais: " << nFlightsOutCountry(country, flights);
+
+        //voosOut
+        cout << "\n\nNumero de voos que aterram neste pais: " << nFlightsInCountry(country, flights);
+
+        cout << "\n\n\n0) Voltar\n\n--> ";
+        cin>>n;
+        break;
+    }
+}
+
 void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
     Graph g;
     int n;
@@ -221,9 +276,8 @@ void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, v
         //--------------- rede global ---------------//
         cout << "\n\n4) Rede Global";
 
-        cout << "\n\n\n\n\n\n0) Sair";
+        cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
         //--------------- input ---------------//
-        cout << "\n\n--> ";
         cin >> n;
         if (n == 0) break;
 
@@ -234,7 +288,7 @@ void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, v
         if(n==2) airportMenu(airports, flights);
 
         //paises
-        //if(n==3) countryMenu(airlines, airports, flights);
+        if(n==3) countryMenu(airlines, airports, flights);
 
         //rede global
         //if(n==4) globalGraphMenu(airlines, airports, flights, g);

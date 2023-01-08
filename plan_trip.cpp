@@ -63,7 +63,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         //----- introduzir localizacao
         cout << "\n\n3) Introduzir localizacao e raio maximo";
 
-        cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+        cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
 
         cin >> n;
         if(n==0) break;
@@ -83,7 +83,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
                 count++;
             }
             else cout << "\n\nNao ha aeroportos nessa cidade";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -121,7 +121,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
                     count++;
                 }
             else cout << "\n\nNao ha aeroportos nesse pais";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -159,7 +159,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
                 count++;
             }
             else cout << "\n\nNao ha aeroportos no raio indicado";
-            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
             cin >> n;
             if(n>0){
                 auto it = newairports.begin();
@@ -196,11 +196,11 @@ void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
         int existe = 0;
         for(auto &i : newairlines) if(i.getCode()==code) existe = 1;
         if(existe==0) newairlines.push_back(a);
-        cout << "\n - " + a.getName() + " (" + a.getCountry() + ")\n\n\n\n\n\n0) Sair\n\n--> ";
+        cout << "\n - " + a.getName() + " (" + a.getCountry() + ")\n\n-------------------\n\n0) Sair\n\n--> ";
         while(n!=0) cin>>n;
     }
     else {
-        cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n--> ";
+        cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n-------------------\n\n0) Sair\n\n--> ";
         while(n!=0) cin>>n;
     }
 }
@@ -214,7 +214,7 @@ void removeAirline(list<Airline>& newairlines){
         cout<< "\n\n" << x << ") " + i.getName() + " (" + i.getCountry() + ")";
         x++;
     }
-    cout << "\n\n\n\n\n\n0) Sair\n\n-> ";
+    cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
     cin >> n;
     if(n>0){
         auto it = newairlines.begin();
@@ -281,9 +281,8 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
         cout << "\n\n5) Confirmar - processar viagem";
 
 
-        cout << "\n\n\n\n\n\n0) Sair";
+        cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
         //--------------- input ---------------//
-        cout << "\n\n--> ";
         cin >> n;
         if (n == 0) break;
 
@@ -323,4 +322,3 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
         }
     }
 }
-
