@@ -16,6 +16,41 @@ int nCountries(const Airline& airline, const vector<Flight>& flights){
     return countries.size();
 }
 
+int nAirlines(const Airport& airport, const vector<Flight>& flights){
+    set<string> airlines;
+    for(auto &i : flights){
+        if(i.getTarget().getCode() == airport.getCode() || i.getSource().getCode() == airport.getCode())
+            if(airlines.find(i.getAirline().getCode())==airlines.end())
+                airlines.insert(i.getAirline().getCode());
+    }
+    return airlines.size();
+}
+
+int nReachableCountries(const Airport& airport, const vector<Flight>& flights){
+    set<string> countries;
+    for(auto &i: flights){
+        if(i.getSource().getCode() == airport.getCode() && countries.find(i.getTarget().getCountry())==countries.end())
+            countries.insert(i.getTarget().getCountry());
+    }
+    return countries.size();
+}
+
+int nFlightsOut(const Airport& airport, const vector<Flight>& flights){
+    int resposta = 0;
+    for(auto &i: flights){
+        if(i.getSource().getCode()==airport.getCode()) resposta++;
+    }
+    return resposta;
+}
+
+int nFlightsIn(const Airport& airport, const vector<Flight>& flights){
+    int resposta = 0;
+    for(auto &i: flights){
+        if(i.getTarget().getCode()==airport.getCode()) resposta++;
+    }
+    return resposta;
+}
+
 void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
     int n = 1;
     while(true){
@@ -45,9 +80,10 @@ void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
 }
 
 void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
-    int n = 1;
+    int n;
     string cidade, cidade1;
     list<Airport> newairports;
+    Airport airport;
     float lat, lon, r;
     while(true){
         system("cls");
@@ -86,10 +122,8 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
             if(n>0){
                 auto it = newairports.begin();
                 for(int i = 1; i<n; i++){it++;}
-                // display começa aqui
-                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+                airport = *it;
             }
-            break;
         }
 
         if(n==2){
@@ -112,10 +146,8 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
             if(n>0){
                 auto it = newairports.begin();
                 for(int i = 1; i<n; i++){it++;}
-                // display começa aqui
-                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+                airport = *it;
             }
-            break;
         }
 
         if(n==3){
@@ -138,10 +170,32 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
             if(n>0){
                 auto it = newairports.begin();
                 for(int i = 1; i<n; i++){it++;}
-                // display começa aqui
-                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+                airport = *it;
             }
-            break;
+        }
+        if(airport.getCode()!=""){
+            system("cls");
+            cout << "\n\n--> " + airport.getCity() + " (" + airport.getCountry() + ") - " + airport.getName() + " <--";
+
+            //pais
+            cout << "\n\nPais: " + airport.getCountry();
+
+            //numero de companhias
+            cout << "\n\nNumero de companhias que passam por este aeroporto: " << nAirlines(airport,flights);
+
+            //numero de paises atingiveis
+            cout << "\n\nNumero de paises atingiveis a partir de este aeroporto: " << nReachableCountries(airport,flights);
+
+            //numero de voos que de la saem
+            cout << "\n\nNumero de voos que saem deste aeroporto: " << nFlightsOut(airport,flights);
+
+            //numero de voos que la chegam
+            cout << "\n\nNumero de voos que aterram neste aeroporto: " << nFlightsIn(airport,flights);
+
+
+            cout << "\n\n\n0) Voltar\n\n--> ";
+            cin>>n;
+            while(n!=0){cin>>n; if(n==0) break;}
         }
     }
 }
