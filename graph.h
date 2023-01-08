@@ -34,7 +34,7 @@ public:
     Graph();
     void addEdge(const Flight& f);
     map<string,Node> getNodes();
-    list<Node> bfs(const string& source, const string& target);
+    void bfs(const string& source, const string& target);
 };
 
 #endif
