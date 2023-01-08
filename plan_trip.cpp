@@ -200,7 +200,7 @@ void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
         while(n!=0){cin>>n; if(n==0) break;}
     }
     else {
-        cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n-->";
+        cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n--> ";
         while(n!=0){cin>>n; if(n==0) break;}
     }
 }
