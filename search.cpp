@@ -44,8 +44,106 @@ void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
     }
 }
 
-void airportMenu(map<string, Airport>& airports, vector<Flight>& flights){
+void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
+    int n = 1;
+    string cidade, cidade1;
+    list<Airport> newairports;
+    float lat, lon, r;
+    while(true){
+        system("cls");
+        cout<< "\n\n---- Pesquisar aeroporto ----";
+        //----- pesquisar por cidade -----
+        cout << "\n\n1) Pesquisar por cidade";
 
+        //----- pesquisar por pais -----
+        cout << "\n\n2) Pesquisar por pais";
+
+        //----- introduzir localizacao
+        cout << "\n\n3) Introduzir localizacao e raio maximo";
+
+        cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+
+        cin >> n;
+        if(n==0) break;
+
+        if(n==1){
+            system("cls");
+            cout << "\n\nCidade: ";
+
+            cin >> cidade;
+            getline(cin,cidade1,'\n');
+            cidade += cidade1;
+
+            newairports = citySearch(cidade, a);
+            int count = 1;
+            if(!newairports.empty()) for(auto &i: newairports){
+                    cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                    count++;
+                }
+            else cout << "\n\nNao ha aeroportos nessa cidade";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                // display começa aqui
+                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+            }
+            break;
+        }
+
+        if(n==2){
+            system("cls");
+            cout << "\n\nPais: ";
+
+            cin >> cidade;
+            getline(cin,cidade1,'\n');
+            cidade += cidade1;
+
+            newairports = countrySearch(cidade, a);
+            int count = 1;
+            if(!newairports.empty()) for(auto &i: newairports){
+                    cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                    count++;
+                }
+            else cout << "\n\nNao ha aeroportos nesse pais";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                // display começa aqui
+                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+            }
+            break;
+        }
+
+        if(n==3){
+            system("cls");
+            cout << "\n\nLatitude: ";
+            cin >> lat;
+            cout << "\n\nLongitude: ";
+            cin >> lon;
+            cout << "\n\nRaio maximo: ";
+            cin >> r;
+            newairports = coordinateSearch(lat,lon,r,a);
+            int count = 1;
+            if(!newairports.empty()) for(auto &i: newairports){
+                    cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                    count++;
+                }
+            else cout << "\n\nNao ha aeroportos no raio indicado";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                // display começa aqui
+                cout << it->getCity() + " (" + it->getCountry() + ") - " + it->getName();
+            }
+            break;
+        }
+    }
 }
 
 void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, vector<Flight>& flights){
