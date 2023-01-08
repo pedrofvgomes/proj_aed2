@@ -33,6 +33,7 @@ class Graph{
 public:
     Graph();
     void addEdge(const Flight& f);
+    map<string,Node> getNodes();
 };
 
 #endif

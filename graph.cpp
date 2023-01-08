@@ -45,7 +45,6 @@ void Graph::addEdge(const Flight& f) {
 
         //target ainda nao existe
         if(exists==0){
-            n++;
             Edge e;
             vector<string> a;
             a.push_back(air);
@@ -58,3 +57,10 @@ void Graph::addEdge(const Flight& f) {
         }
     }
 }
+
+list<Flight> getTrip(Graph& g, const Airport& a1, const Airport& a2){
+
+}
+
+map<string, Graph::Node> Graph::getNodes() {return nodes;}
+
