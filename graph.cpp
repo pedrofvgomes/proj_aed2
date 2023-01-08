@@ -1,5 +1,7 @@
 #include "graph.h"
 #include "flight.h"
+#include <queue>
+using namespace std;
 
 Graph::Graph(){
     n = 0;
@@ -64,3 +66,31 @@ list<Flight> getTrip(Graph& g, const Airport& a1, const Airport& a2){
 
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
 
+list<Graph::Node> Graph::bfs(const string& source, const string& target){
+    //meter todos unvisited
+
+    for(auto &i : nodes)
+        { i.second.visited = false; i.second.distance = INT_MAX; i.second.previous = "";}
+    //queue de aeroportos unvisited
+    queue<string> q;
+
+    //adicionar a partida à queue e metê-la visited
+    q.push(source);
+    nodes[source].visited = true;
+    nodes[source].distance = 0;
+
+    //enquanto a queue nao estiver vazia
+    while(!q.empty()){
+        //pegar no atual e remove-lo da queue
+        string current = q.front();
+        q.pop();
+        //percorrer todos os vizinhos do current, adicionar os unvisited à queue e mete-los visited
+        for(auto &i : nodes[current].adj){
+            if(!nodes[i.target].visited){
+                q.push(i.target);
+                nodes[i.target].visited = true;
+                nodes[i.target].distance = nodes[current].distance+1;
+            }
+        }
+    }
+}

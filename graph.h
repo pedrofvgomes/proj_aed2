@@ -19,10 +19,10 @@ class Graph{
     };
 
     struct Node{
-        //todos os destinos possiveis
         vector<Edge> adj;
-        //possivelmente nao vamos usar
         bool visited;
+        int distance;
+        string previous;
     };
 
     //size
@@ -34,6 +34,7 @@ public:
     Graph();
     void addEdge(const Flight& f);
     map<string,Node> getNodes();
+    list<Node> bfs(const string& source, const string& target);
 };
 
 #endif
