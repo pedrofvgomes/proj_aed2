@@ -10,7 +10,7 @@ Graph::Graph(){
 void Graph::addEdge(const Flight& f) {
     string a1 = f.getSource().getCode();
     string a2 = f.getTarget().getCode();
-    string air = f.getAirline().getCallsign();
+    string air = f.getAirline().getCallsign() == "_"? f.getAirline().getCode() : f.getAirline().getCallsign();
     //se nao existir
     if(nodes.find(a1)==nodes.end()){
         n++;
@@ -64,8 +64,8 @@ void Graph::addEdge(const Flight& f) {
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
 
 void Graph::bfs(const string& source, const string& target){
+    srand(time(NULL));
     //meter todos unvisited
-
     for(auto &i : nodes)
         { i.second.visited = false; i.second.distance = INT_MAX; i.second.previous = "";}
     //queue de aeroportos unvisited
