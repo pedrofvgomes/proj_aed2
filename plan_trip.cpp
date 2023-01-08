@@ -188,9 +188,11 @@ void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
     int n = 1;
     system("cls");
     cout << "\n\n---- Adicionar companhia ----";
-    string code;
+    string code, code1;
     cout << "\n\nCodigo: ";
     cin >> code;
+    getline(cin,code1,'\n');
+    code1 += code1;
     if(airlines.find(code)!=airlines.end()) {
         auto a = airlines[code];
         int existe = 0;

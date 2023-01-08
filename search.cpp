@@ -1,83 +1,4 @@
-#include <string>
-#include <map>
-#include <set>
-#include "plan_trip.cpp"
-
-int nCountries(const Airline& airline, const vector<Flight>& flights){
-    set<string> countries;
-    for(auto &i : flights){
-        if(i.getAirline().getCode()==airline.getCode()){
-            if(countries.find(i.getSource().getCountry())==countries.end())
-                countries.insert(i.getSource().getCountry());
-            if(countries.find(i.getTarget().getCountry())==countries.end())
-                countries.insert(i.getTarget().getCountry());
-        }
-    }
-    return countries.size();
-}
-
-int nAirlines(const Airport& airport, const vector<Flight>& flights){
-    set<string> airlines;
-    for(auto &i : flights){
-        if(i.getTarget().getCode() == airport.getCode() || i.getSource().getCode() == airport.getCode())
-            if(airlines.find(i.getAirline().getCode())==airlines.end())
-                airlines.insert(i.getAirline().getCode());
-    }
-    return airlines.size();
-}
-
-int nReachableCountries(const Airport& airport, const vector<Flight>& flights){
-    set<string> countries;
-    for(auto &i: flights){
-        if(i.getSource().getCode() == airport.getCode() && countries.find(i.getTarget().getCountry())==countries.end())
-            countries.insert(i.getTarget().getCountry());
-    }
-    return countries.size();
-}
-
-int nFlightsOut(const Airport& airport, const vector<Flight>& flights){
-    int resposta = 0;
-    for(auto &i: flights){
-        if(i.getSource().getCode()==airport.getCode()) resposta++;
-    }
-    return resposta;
-}
-
-int nFlightsIn(const Airport& airport, const vector<Flight>& flights){
-    int resposta = 0;
-    for(auto &i: flights){
-        if(i.getTarget().getCode()==airport.getCode()) resposta++;
-    }
-    return resposta;
-}
-
-int nAirlinesCountry(const string& country, map<string, Airline>& airlines){
-    int resposta = 0;
-    for(auto &i: airlines)
-        if(i.second.getCountry()==country) resposta++;
-    return resposta;
-}
-
-int nAirportsCountry(const string& country, map<string, Airport>& airports){
-    int resposta = 0;
-    for(auto &i: airports)
-        if(i.second.getCountry()==country) resposta++;
-    return resposta;
-}
-
-int nFlightsInCountry(const string& country, vector<Flight>& flights){
-    int resposta = 0;
-    for(auto &i: flights)
-        if(i.getTarget().getCountry()==country) resposta++;
-    return resposta;
-}
-
-int nFlightsOutCountry(const string& country, vector<Flight>& flights){
-    int resposta = 0;
-    for(auto &i: flights)
-        if(i.getSource().getCountry()==country) resposta++;
-    return resposta;
-}
+#include "count.cpp"
 
 void airlineMenu(map<string, Airline>& airlines, vector<Flight>& flights){
     int n = 1;
@@ -201,7 +122,7 @@ void airportMenu(map<string, Airport>& a, vector<Flight>& flights){
                 airport = *it;
             }
         }
-        if(airport.getCode()!=""){
+        if(airport.getCode().empty()){
             system("cls");
             cout << "\n\n--> " + airport.getCity() + " (" + airport.getCountry() + ") - " + airport.getName() + " <--";
 
@@ -233,9 +154,11 @@ void countryMenu(map<string, Airline>& airlines, map<string, Airport>& airports,
     while(true){
         system("cls");
         cout << "\n\n---- Pesquisar pais ----";
-        string country;
+        string country, country1;
         cout << "\n\nNome do pais: ";
         cin >> country;
+        getline(cin,country1,'\n');
+        country += country1;
 
         //companhias
         cout << "\n\nNumero de companhias sediadas neste pais: " << nAirlinesCountry(country, airlines);
@@ -273,14 +196,9 @@ void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, v
         //--------------- paises ---------------//
         cout << "\n\n3) Paises";
 
-        //--------------- rede global ---------------//
-        cout << "\n\n4) Rede Global";
-
         cout << "\n\n-------------------\n\n0) Sair\n\n--> ";
         //--------------- input ---------------//
         cin >> n;
-        if (n == 0) break;
-
         //companhias
         if(n==1) airlineMenu(airlines, flights);
 
@@ -290,7 +208,6 @@ void searchMenu(map<string,Airline>& airlines, map<string, Airport>& airports, v
         //paises
         if(n==3) countryMenu(airlines, airports, flights);
 
-        //rede global
-        //if(n==4) globalGraphMenu(airlines, airports, flights, g);
+        if(n<1 || n>3) break;
     }
 }
