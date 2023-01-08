@@ -10,7 +10,7 @@ Graph::Graph(){
 void Graph::addEdge(const Flight& f) {
     string a1 = f.getSource().getCode();
     string a2 = f.getTarget().getCode();
-    string air = f.getAirline().getCode();
+    string air = f.getAirline().getCallsign();
     //se nao existir
     if(nodes.find(a1)==nodes.end()){
         n++;
@@ -60,9 +60,6 @@ void Graph::addEdge(const Flight& f) {
     }
 }
 
-list<Flight> getTrip(Graph& g, const Airport& a1, const Airport& a2){
-
-}
 
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
 
@@ -91,6 +88,7 @@ void Graph::bfs(const string& source, const string& target){
                 nodes[i.target].visited = true;
                 nodes[i.target].distance = nodes[current].distance+1;
                 nodes[i.target].previous = current;
+                nodes[i.target].airline = i.airlines[0];
             }
         }
     }
