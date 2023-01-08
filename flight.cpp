@@ -37,6 +37,7 @@ list<pair<string,string>> shortestFlight(const string& source, const string& tar
         current = currentnode.previous;
         currentnode = nodes[current];
         if(current==source) resposta.push_back({current,currentnode.airline});
+        if(current=="") break;
     }
     list<pair<string,string>> temp;
     auto it = resposta.end();
@@ -46,10 +47,11 @@ list<pair<string,string>> shortestFlight(const string& source, const string& tar
         it--;
     }
     temp.push_back(*it);
-    return temp;
+    list<pair<string,string>> empty;
+    return temp.size()==1? empty : temp;
 }
 
-void displayTrip(list<pair<string,string>>& trip, map<string, Airport>& airports){
+void displayTrip(const list<pair<string,string>>& trip, map<string, Airport>& airports){
     auto it = trip.begin();
     if(trip.size()>=2){
         cout << (*it).first + " (" + airports[(*it).first].getCity() + ")";
@@ -59,4 +61,8 @@ void displayTrip(list<pair<string,string>>& trip, map<string, Airport>& airports
             it++;
         }
     }
+}
+
+bool validTrip(const list<pair<string,string>>& trip){
+    return true;
 }

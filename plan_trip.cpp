@@ -259,10 +259,17 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
                 g.addEdge(i);
             }
             g.bfs(f.getSource().getCode(), f.getTarget().getCode());
-            if(f.getSource().getCode()!="" && f.getTarget().getCode()!="")
+            if(f.getSource().getCode()!="" && f.getTarget().getCode()!=""){
                 shortestTrip = shortestFlight(f.getSource().getCode(), f.getTarget().getCode(),g);
-            else cout << "\nTens de definir partida e destino para a viagem ser processada\n0) Voltar\n\n-->";
-            while(temp!=0) cin >> temp;
+                if(shortestTrip.empty()){
+                    cout << "\nNao existe trajeto possivel para esta viagem, experimenta remover restricao de companhia e tenta novamente\n0) Voltar\n\n--> ";
+                    while(temp!=0) cin >> temp;
+                }
+            }
+            else {
+                cout << "\nTens de definir partida e destino para a viagem ser processada\n0) Voltar\n\n--> ";
+                while(temp!=0) cin >> temp;
+            }
         }
     }
 }
