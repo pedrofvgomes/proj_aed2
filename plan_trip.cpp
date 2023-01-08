@@ -53,7 +53,7 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
     list<Airport> newairports;
     while(true){
         system("cls");
-
+        cout<< "\n\n---- Pesquisar aeroporto ----";
         //----- pesquisar por cidade -----
         cout << "\n\n1) Pesquisar por cidade";
 
@@ -197,11 +197,11 @@ void addAirline(list<Airline>& newairlines, map<string, Airline>& airlines){
         for(auto &i : newairlines) if(i.getCode()==code) existe = 1;
         if(existe==0) newairlines.push_back(a);
         cout << "\n - " + a.getName() + " (" + a.getCountry() + ")\n\n\n\n\n\n0) Sair\n\n--> ";
-        while(n!=0){cin>>n; if(n==0) break;}
+        while(n!=0) cin>>n;
     }
     else {
         cout << "\n\nNao existe nenhuma companhia com esse codigo\n\n\n\n\n\n0) Sair\n\n--> ";
-        while(n!=0){cin>>n; if(n==0) break;}
+        while(n!=0) cin>>n;
     }
 }
 

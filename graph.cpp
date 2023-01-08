@@ -64,10 +64,9 @@ void Graph::addEdge(const Flight& f) {
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
 
 void Graph::bfs(const string& source, const string& target){
-    srand(time(NULL));
     //meter todos unvisited
     for(auto &i : nodes)
-        { i.second.visited = false; i.second.distance = INT_MAX; i.second.previous = "";}
+        {i.second.visited = false; i.second.distance = INT_MAX; i.second.previous = "";}
     //queue de aeroportos unvisited
     queue<string> q;
 
