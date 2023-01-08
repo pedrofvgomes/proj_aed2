@@ -4,7 +4,8 @@
 #include <vector>
 #include <sstream>
 using namespace std;
-
+/// split
+/// \param s
 vector<string> split(string& s){
     vector<string> result;
     stringstream s_stream(s);
@@ -15,6 +16,7 @@ vector<string> split(string& s){
     }
     return result;
 }
+/// setup airports
 
 unordered_map<string, Airport> setupAirports(){
     unordered_map<string,Airport> airports;
@@ -39,7 +41,7 @@ unordered_map<string, Airport> setupAirports(){
     file.close();
     return airports;
 }
-
+/// setup airlines
 unordered_map<string, Airline> setupAirlines(){
     unordered_map<string,Airline> airlines;
     string line;
@@ -60,7 +62,9 @@ unordered_map<string, Airline> setupAirlines(){
     file.close();
     return airlines;
 }
-
+/// setup fligths
+/// \param airports
+/// \param airlines
 vector<Flight> setupFlights(unordered_map<string,Airport>& airports,
                             unordered_map<string,Airline>& airlines){
     vector<Flight> flights;

@@ -7,6 +7,12 @@ using namespace std;
 
 //lista de aeroportos numa cidade
 
+/// search airports in a city
+/// \param city
+/// \param airports
+/// \return list of airports in this city
+
+
 list<Airport> citySearch(const string& city, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
@@ -16,6 +22,10 @@ list<Airport> citySearch(const string& city, unordered_map<string,Airport>& airp
 }
 
 //lista de aeroportos por pais
+/// search airports in a country
+/// \param country
+/// \param airports
+/// \return list of airports in this country
 list<Airport> countrySearch(const string& country, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
@@ -25,7 +35,12 @@ list<Airport> countrySearch(const string& country, unordered_map<string,Airport>
 }
 
 //lista de aeroportos dentro de um raio x, a partir de uma coordenada fixa
-
+/// search airports between x kilometers
+/// \param lat
+/// \param lon
+/// \param radius
+/// \param airports
+/// \return list of airports in this x kilometers
 list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, unordered_map<string,Airport>& airports){
     list<Airport> a;
     for(auto &i:airports)
@@ -35,7 +50,10 @@ list<Airport> coordinateSearch(const float& lat, const float& lon, const float& 
 }
 
 //criar um vetor de voos com restricao de companhias
-
+/// search flights in selected airlines
+/// \param flights
+/// \param airlines
+/// \return list of flights in this airlines
 vector<Flight> createFlights(vector<Flight>& flights, list<Airline>& airlines){
     vector<Flight> newflights;
     if(airlines.empty()) newflights = flights;
@@ -44,7 +62,10 @@ vector<Flight> createFlights(vector<Flight>& flights, list<Airline>& airlines){
             if(i.getAirline().getCode()==a.getCode()) newflights.push_back(i);
     return newflights;
 }
-
+/// Change target airport or source airport
+/// \param escolha
+/// \param f
+/// \param airports
 void setAirport(int escolha, Flight& f, unordered_map<string, Airport>& airports){
     int n, temp;
     string city, city1;
@@ -182,7 +203,9 @@ void setAirport(int escolha, Flight& f, unordered_map<string, Airport>& airports
         }
     }
 }
-
+/// add airline
+/// \param newairlines
+/// \param airlines
 void addAirline(list<Airline>& newairlines, unordered_map<string, Airline>& airlines){
     int n = 1;
     system("cls");
@@ -205,6 +228,8 @@ void addAirline(list<Airline>& newairlines, unordered_map<string, Airline>& airl
         while(n!=0) cin>>n;
     }
 }
+/// remove airline
+/// \param newairlines
 
 void removeAirline(list<Airline>& newairlines){
     system("cls");
@@ -228,6 +253,10 @@ void removeAirline(list<Airline>& newairlines){
 
 //menu de planeamento de viagem
 
+/// plan trip menu
+/// \param airlines
+/// \param airports
+/// \param flights
 void planTripMenu(unordered_map<string, Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     Flight f = Flight();
     list<Airline> newairlines;

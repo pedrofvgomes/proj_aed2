@@ -5,7 +5,7 @@
 #include <iostream>
 #include "search.cpp"
 using namespace std;
-
+/// main
 int main() {
     int n;
     unordered_map<string, Airline> airlines = setupAirlines();

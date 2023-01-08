@@ -2,11 +2,12 @@
 #include "flight.h"
 #include <queue>
 using namespace std;
-
+/// Constructor
 Graph::Graph(){
     n = 0;
 }
-
+/// Add edge
+/// \param f
 void Graph::addEdge(const Flight& f) {
     string a1 = f.getSource().getCode();
     string a2 = f.getTarget().getCode();
@@ -60,9 +61,11 @@ void Graph::addEdge(const Flight& f) {
     }
 }
 
-
+/// getter of nodes
 map<string, Graph::Node> Graph::getNodes() {return nodes;}
-
+/// breadth search
+/// \param source
+/// \param target
 void Graph::bfs(const string& source, const string& target){
     //meter todos unvisited
     for(auto &i : nodes)

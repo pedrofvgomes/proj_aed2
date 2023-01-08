@@ -1,5 +1,7 @@
 #include "count.cpp"
-
+/// airlines menu
+/// \param airlines
+/// \param flights
 void airlineMenu(unordered_map<string, Airline>& airlines, vector<Flight>& flights){
     int n = 1;
     while(true){
@@ -27,7 +29,9 @@ void airlineMenu(unordered_map<string, Airline>& airlines, vector<Flight>& fligh
         break;
     }
 }
-
+/// airports menu
+/// \param airports
+/// \param flights
 void airportMenu(unordered_map<string, Airport>& a, vector<Flight>& flights){
     int n;
     string cidade, cidade1;
@@ -148,7 +152,10 @@ void airportMenu(unordered_map<string, Airport>& a, vector<Flight>& flights){
         }
     }
 }
-
+/// countris menu
+/// \param airlines
+/// \param airports
+/// \param flights
 void countryMenu(unordered_map<string, Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     int n = 1, nin, nout;
     while(true){
@@ -177,7 +184,10 @@ void countryMenu(unordered_map<string, Airline>& airlines, unordered_map<string,
         if(n==0) break;
     }
 }
-
+/// search menu
+/// \param airlines
+/// \param airports
+/// \param flights
 void searchMenu(unordered_map<string,Airline>& airlines, unordered_map<string, Airport>& airports, vector<Flight>& flights){
     Graph g;
     int n;
