@@ -1,22 +1,10 @@
 #include "graph.h"
-#include <cmath>
 #include "flight.h"
+#include <queue>
+using namespace std;
 
 Graph::Graph(){
     n = 0;
-}
-
-float d(float lat1, float lat2, float lon1, float lon2){
-    float latRad1 = M_PI * lat1 / 180.0;
-    float latRad2 = M_PI * lat2 / 180.0;
-    float lonRad1 = M_PI * lon1 / 180.0;
-    float lonRad2 = M_PI * lon2 / 180.0;
-
-    float diffLa = latRad2 - latRad1;
-    float diffLo = lonRad2 - lonRad1;
-
-    float computation = asin(sqrt(sin(diffLa / 2) * sin(diffLa / 2) + cos(latRad1) * cos(latRad2) * sin(diffLo / 2) * sin(diffLo / 2)));
-    return 2 * 6372.8 * computation;
 }
 
 void Graph::addEdge(const Flight& f) {
@@ -59,7 +47,6 @@ void Graph::addEdge(const Flight& f) {
 
         //target ainda nao existe
         if(exists==0){
-            n++;
             Edge e;
             vector<string> a;
             a.push_back(air);
@@ -69,6 +56,41 @@ void Graph::addEdge(const Flight& f) {
             e.airlines = a;
 
             nodes[a1].adj.push_back(e);
+        }
+    }
+}
+
+list<Flight> getTrip(Graph& g, const Airport& a1, const Airport& a2){
+
+}
+
+map<string, Graph::Node> Graph::getNodes() {return nodes;}
+
+list<Graph::Node> Graph::bfs(const string& source, const string& target){
+    //meter todos unvisited
+
+    for(auto &i : nodes)
+        { i.second.visited = false; i.second.distance = INT_MAX; i.second.previous = "";}
+    //queue de aeroportos unvisited
+    queue<string> q;
+
+    //adicionar a partida à queue e metê-la visited
+    q.push(source);
+    nodes[source].visited = true;
+    nodes[source].distance = 0;
+
+    //enquanto a queue nao estiver vazia
+    while(!q.empty()){
+        //pegar no atual e remove-lo da queue
+        string current = q.front();
+        q.pop();
+        //percorrer todos os vizinhos do current, adicionar os unvisited à queue e mete-los visited
+        for(auto &i : nodes[current].adj){
+            if(!nodes[i.target].visited){
+                q.push(i.target);
+                nodes[i.target].visited = true;
+                nodes[i.target].distance = nodes[current].distance+1;
+            }
         }
     }
 }
