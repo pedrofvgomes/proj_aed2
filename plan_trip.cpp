@@ -16,6 +16,15 @@ list<Airport> citySearch(const string& city, map<string,Airport>& airports){
     return a;
 }
 
+//lista de aeroportos por pais
+list<Airport> countrySearch(const string& country, map<string,Airport>& airports){
+    list<Airport> a;
+    for(auto &i:airports)
+        if(i.second.getCountry()==country)
+            a.push_back(i.second);
+    return a;
+}
+
 //lista de aeroportos dentro de um raio x, a partir de uma coordenada fixa
 
 list<Airport> coordinateSearch(const float& lat, const float& lon, const float& radius, map<string,Airport>& airports){
@@ -48,8 +57,11 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         //----- pesquisar por cidade -----
         cout << "\n\n1) Pesquisar por cidade";
 
+        //----- pesquisar por pais -----
+        cout << "\n\n2) Pesquisar por pais";
+
         //----- introduzir localizacao
-        cout << "\n\n2) Introduzir localizacao e raio maximo";
+        cout << "\n\n3) Introduzir localizacao e raio maximo";
 
         cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
 
@@ -95,6 +107,44 @@ void setAirport(int escolha, Flight& f, map<string, Airport>& airports){
         }
 
         if(n==2){
+            system("cls");
+            cout << "\n\nPais: ";
+
+            cin >> city;
+            getline(cin,city1,'\n');
+            city += city1;
+
+            newairports = countrySearch(city, airports);
+            int count = 1;
+            if(!newairports.empty()) for(auto &i: newairports){
+                    cout << "\n\n" + to_string(count) + ") " + i.getName() + " (" + i.getCode() + ") - " + i.getCountry();
+                    count++;
+                }
+            else cout << "\n\nNao ha aeroportos nesse pais";
+            cout << "\n\n\n\n\n\n0) Sair\n\n--> ";
+            cin >> n;
+            if(n>0){
+                auto it = newairports.begin();
+                for(int i = 1; i<n; i++){it++;}
+                if(escolha==0) {
+                    if(it->getCode()==f.getTarget().getCode()){
+                        cout << "\n\nO aeroporto de partida nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setSource(*it);
+                }
+                else {
+                    if(it->getCode()==f.getSource().getCode()){
+                        cout << "\n\nO aeroporto de destino nao pode ser igual ao de destino, prima qualquer tecla para voltar\n-->";
+                        cin >> temp;
+                    }
+                    else f.setTarget(*it);
+                }
+            }
+            break;
+        }
+
+        if(n==3){
             system("cls");
             cout << "\n\nLatitude: ";
             cin >> lat;
