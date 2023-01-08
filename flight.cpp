@@ -24,21 +24,21 @@ void Flight::setAirline(const Airline &a) {this->airline = a;}
 void Flight::setSource(const Airport &a) {this->source = a;}
 void Flight::setTarget(const Airport &a) {this->target = a;}
 
-list<string> shortestFlight(const string& source, const string& target, Graph& g){
+list<pair<string,string>> shortestFlight(const string& source, const string& target, Graph& g){
     //inicializar a lista
-    list<string> resposta;
+    list<pair<string,string>> resposta;
     //ir ao node do destino
     string current;
     auto nodes = g.getNodes();
     auto currentnode = nodes[target];
     current = target;
     while(current!=source){
-        resposta.push_back(current);
+        resposta.push_back({current,currentnode.airline});
         current = currentnode.previous;
         currentnode = nodes[current];
-        if(current==source) resposta.push_back(current);
+        if(current==source) resposta.push_back({current,currentnode.airline});
     }
-    list<string> temp;
+    list<pair<string,string>> temp;
     auto it = resposta.end();
     it--;
     while(it!=resposta.begin()){
@@ -49,13 +49,13 @@ list<string> shortestFlight(const string& source, const string& target, Graph& g
     return temp;
 }
 
-void displayTrip(list<string>& trip, map<string, Airport>& airports){
+void displayTrip(list<pair<string,string>>& trip, map<string, Airport>& airports){
     auto it = trip.begin();
     if(trip.size()>=2){
-        cout << *it + " (" + airports[*it].getName() + ")";
+        cout << (*it).first + " (" + airports[(*it).first].getName() + ")";
         it++;
         while(it!=trip.end()){
-            cout << " -> " + *it + " (" + airports[*it].getName() + ")";
+            cout << " --|" + (*it).second + "|--> "+ (*it).first + " (" + airports[(*it).first].getName() + ")";
             it++;
         }
     }

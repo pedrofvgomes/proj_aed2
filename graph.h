@@ -23,6 +23,7 @@ class Graph{
         bool visited;
         int distance;
         string previous;
+        string airline;
     };
 
     //size

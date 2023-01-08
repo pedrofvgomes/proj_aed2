@@ -181,7 +181,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
     Flight f = Flight();
     list<Airline> newairlines;
     vector<Flight> currentflights;
-    list<string> shortestTrip;
+    list<pair<string,string>> shortestTrip;
     int n;
     while(true){
         //--------------- cabeçalho ---------------//
@@ -252,7 +252,7 @@ void planTripMenu(map<string, Airline>& airlines, map<string, Airport>& airports
         if(n==5){
             Graph g;
             currentflights = createFlights(flights, newairlines);
-            cout <<"...";
+            cout << "...";
             for(auto &i : currentflights) {
                 g.addEdge(i);
             }
